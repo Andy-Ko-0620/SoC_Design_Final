@@ -1,0 +1,39 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sat Nov 04 07:57:13 2023
+[*]
+[dumpfile] "C:\Users\nieh\Documents\Joshuanieh\GIEE\Soc_Design_Lab\caravel-soc_fpga-lab\lab-caravel_fir\testbench\counter_la_fir\counter_la_fir.vcd"
+[dumpfile_mtime] "Sat Nov 04 07:49:51 2023"
+[dumpfile_size] 84705392
+[savefile] "C:\Users\nieh\Documents\Joshuanieh\GIEE\Soc_Design_Lab\caravel-soc_fpga-lab\lab-caravel_fir\testbench\counter_la_fir\my_waveform.gtkw"
+[timestart] 1859955200
+[size] 1280 649
+[pos] -35 -35
+*-16.000000 1861362500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] counter_la_fir_tb.
+[treeopen] counter_la_fir_tb.uut.
+[treeopen] counter_la_fir_tb.uut.mprj.
+[treeopen] counter_la_fir_tb.uut.mprj.mprj.
+[sst_width] 197
+[signals_width] 150
+[sst_expanded] 1
+[sst_vpaned_height] 170
+@28
+counter_la_fir_tb.uut.mprj.mprj.fir_valid
+counter_la_fir_tb.uut.mprj.mprj.sm_tvalid
+@29
+counter_la_fir_tb.uut.mprj.mprj.ss_tready
+@28
+counter_la_fir_tb.uut.mprj.mprj.fir_ready
+@22
+counter_la_fir_tb.uut.mprj.mprj.wbs_dat_i[31:0]
+counter_la_fir_tb.uut.mprj.mprj.wbs_dat_o[31:0]
+counter_la_fir_tb.uut.mprj.mprj.wbs_adr_i[31:0]
+@28
+counter_la_fir_tb.uut.mprj.mprj.wbs_ack_o
+@22
+counter_la_fir_tb.uut.mprj.mprj.wstrb[3:0]
+@28
+counter_la_fir_tb.uut.mprj.mprj.clk
+[pattern_trace] 1
+[pattern_trace] 0
