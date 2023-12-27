@@ -18,7 +18,10 @@
 // This include is relative to $CARAVEL_PATH (see Makefile)
 #include <defs.h>
 #include <stub.c>
-
+#define reg_fir_data_len (*(volatile uint32_t*)0x30000010)
+#define reg_fir_coeff    (*(volatile uint32_t*)0x30000040)
+#define N 11
+#define N_IN 64
 extern int* fir();
 
 // --------------------------------------------------------
@@ -31,7 +34,7 @@ extern int* fir();
 		- Outputs message to the UART when the test concludes successfuly
 */
 
-void main()
+void __attribute__ ( ( section ( ".mprjram" ) ) ) main()
 {
 	int j;
 
@@ -103,7 +106,7 @@ void main()
 	reg_mprj_xfer = 1;
 	while (reg_mprj_xfer == 1);
 
-        // Configure LA probes [31:0], [127:64] as inputs to the cpu 
+    // Configure LA probes [31:0], [127:64] as inputs to the cpu 
 	// Configure LA probes [63:32] as outputs from the cpu
 	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
 	reg_la1_oenb = reg_la1_iena = 0x00000000;    
@@ -111,48 +114,21 @@ void main()
 	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
 	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
 
-	// Flag start of the test 
-	reg_mprj_datal = 0x00A50000;
-
-	// Set Counter value to zero through LA probes [63:32]
-	// reg_la1_data = 0x00000000;
-
-	// Configure LA probes from [63:32] as inputs to disable counter write
-	// reg_la1_oenb = reg_la1_iena = 0x00000000;    
-
-/*
-	while (1) {
-		if (reg_la0_data_in > 0x1F4) {
-			reg_mprj_datal = 0xAB410000;
-			break;
-		}
-	}
-*/	
-
-
-	int* tmp = fir();
-	
-	//in fir.h N_IN = 64
-	int data_len = 64;
-	for (int i = 0; i < data_len; i++)
+	int taps[N] = {0,-10,-9,23,56,63,56,23,-9,-10,0};
+	for (int i = 0; i < N; i++)
 	{
-		reg_mprj_datal = *(tmp+i) << 16;
+		// uint32_t* tmp = *(uint32_t *)(reg_fir_coeff + i);
+		*(uint32_t *)(&reg_fir_coeff + i) = taps[i];
 	}
-	
-	// reg_mprj_datal = *tmp << 16;
-	// reg_mprj_datal = *(tmp+1) << 16;
-	// reg_mprj_datal = *(tmp+2) << 16;
-	// reg_mprj_datal = *(tmp+3) << 16;
-	// reg_mprj_datal = *(tmp+4) << 16;
-	// reg_mprj_datal = *(tmp+5) << 16;
-	// reg_mprj_datal = *(tmp+6) << 16;
-	// reg_mprj_datal = *(tmp+7) << 16;
-	// reg_mprj_datal = *(tmp+8) << 16;
-	// reg_mprj_datal = *(tmp+9) << 16;
-	// reg_mprj_datal = *(tmp+10) << 16;	
+	reg_fir_data_len = N_IN;
 
-	//print("\n");
-	//print("Monitor: Test 1 Passed\n\n");	// Makes simulation very long!
-	reg_mprj_datal = 0x005A0000;
+	
+	// start mark
+	reg_mprj_datal = 0x00A50000;
+	// run fir contro;
+	int* y = fir();
+	// end mark
+	reg_mprj_datal = (*y << 24) | (0x5A << 16); //mprj[31:0] = {fianl Y, EndMark, 16'h0000} 
+	
 }
 
