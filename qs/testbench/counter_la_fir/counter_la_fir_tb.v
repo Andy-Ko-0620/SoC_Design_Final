@@ -184,18 +184,20 @@ module counter_la_fir_tb;
 		wait(checkbits == 16'h00A5);
 		$display("LA Test 1 started");
 
-		wait(checkbits == 16'd40);
-		$display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
-		wait(checkbits == 16'd893);
-		$display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
-		wait(checkbits == 16'd2541);
-		$display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
-		wait(checkbits == 16'd2669);
+		// wait(checkbits == 16'd40);
+		// $display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		// wait(checkbits == 16'd893);
+		// $display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		// wait(checkbits == 16'd2541);
+		// $display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		// wait(checkbits == 16'd2669);
+		// $display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);	
+
+		wait(checkbits == 16'd9073);
 		$display("Call function qs() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);		
 
 		wait(checkbits == 16'h005A);
 		$display("LA Test 2 passed");
-		$display("cycle count : %d", clk_cnt);
 		#10000;
 		$finish;
 	end

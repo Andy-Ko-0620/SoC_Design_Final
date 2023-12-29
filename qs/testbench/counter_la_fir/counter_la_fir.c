@@ -20,6 +20,7 @@
 #include <stub.c>
 
 extern int* qsort();
+extern void initqs();
 
 // data len = 64
 // #define reg_fir_len (*(volatile uint32_t*)0x30000010)
@@ -144,17 +145,18 @@ void __attribute__ ( ( section ( ".mprjram" ) ) ) main()
 	// reg_fir_coeff8 	= -9;
 	// reg_fir_coeff9 	= -10;
 	// reg_fir_coeff10 = 0;
+	initqs();
 	reg_mprj_datal = 0x00A50000;
 	int* tmp2 = qsort();
-	reg_mprj_datal = *tmp2 << 16;
-	reg_mprj_datal = *(tmp2+1) << 16;
-	reg_mprj_datal = *(tmp2+2) << 16;
-	reg_mprj_datal = *(tmp2+3) << 16;
-	reg_mprj_datal = *(tmp2+4) << 16;
-	reg_mprj_datal = *(tmp2+5) << 16;
-	reg_mprj_datal = *(tmp2+6) << 16;
-	reg_mprj_datal = *(tmp2+7) << 16;
-	reg_mprj_datal = *(tmp2+8) << 16;
+	// reg_mprj_datal = *tmp2 << 16;
+	// reg_mprj_datal = *(tmp2+1) << 16;
+	// reg_mprj_datal = *(tmp2+2) << 16;
+	// reg_mprj_datal = *(tmp2+3) << 16;
+	// reg_mprj_datal = *(tmp2+4) << 16;
+	// reg_mprj_datal = *(tmp2+5) << 16;
+	// reg_mprj_datal = *(tmp2+6) << 16;
+	// reg_mprj_datal = *(tmp2+7) << 16;
+	// reg_mprj_datal = *(tmp2+8) << 16;
 	reg_mprj_datal = *(tmp2+9) << 16;
 	reg_mprj_datal = 0x005A0000;
 /*

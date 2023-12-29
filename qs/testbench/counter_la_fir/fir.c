@@ -46,7 +46,7 @@ void __attribute__ ( ( section ( ".mprjram" ) ) ) initqs() {
 }
 
 int* __attribute__ ( ( section ( ".mprjram" ) ) ) qsort(){
-	initqs();
+	// initqs();
 	// reg_mprj_datal = 0x00A50000;
 	while (reg_fir_control & 4 == 0) continue; //Fir is not idle
 	reg_fir_control = 1; //start
