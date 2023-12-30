@@ -49,23 +49,6 @@ module qs
     localparam STATE_CLEAN_DATA_IN_BRAM = 2;
     reg [2-1:0] state_r;
     reg [2-1:0] state_w;
-    reg [4-1:0] counter_r;
-    reg [4-1:0] counter_w;
-    reg ap_done, ap_idle; 
-    reg [32-1:0] data_length_w;
-    reg [32-1:0] data_length_r;
-    reg [32-1:0] receive_data_for_write_w; //address or data
-    reg [32-1:0] receive_data_for_write_r;
-    reg [32-1:0] receive_address_for_read_w;
-    reg [32-1:0] receive_address_for_read_r;
-    reg [2-1:0] write_state_w; //2'b10 represents address valid, 2'b01 represents data valid
-    reg [2-1:0] write_state_r; //2'b10 represents address valid, 2'b01 represents data valid
-    reg [32-1:0] fir_result_w;
-    reg [32-1:0] fir_result_r;
-    reg          bram_wait_w;
-    reg          bram_wait_r;
-    reg [4-1:0] bram_first_data_position_r; //From 0 to 10
-    reg [4-1:0] bram_first_data_position_w; //From 0 to 10
     reg         pending_sm_tready_r;
     reg         pending_sm_tready_w;
     reg         pending_rready_r;
@@ -79,9 +62,7 @@ module qs
     reg [31:0] qs_output_storage_r [0:9];
     reg [4:0] qs_input_counter_w, qs_input_counter_r, qs_output_counter_w, qs_output_counter_r;
     localparam QS_LEN = 10;
-
-    
-    
+ 
     integer q;
     always@(*) begin
         state_w = state_r;
@@ -114,9 +95,6 @@ module qs
                                 state_w = STATE_EXECUTE;
                             end
                         end
-                        else if ((awaddr >> 4) == 1) begin //address = 0x10
-                            data_length_w = wdata;
-                        end
                         else begin //address = 0x40, direct communicate with BRAM
                             ///////////////////////////////////
                             qs_input_storage_w[qs_input_counter_r] = wdata;
@@ -132,14 +110,6 @@ module qs
                     pending_sm_tready_w = 1;
                     ss_tready = 1;
                 end
-                // if(pending_sm_tready_r != 1'b1) begin
-                //     pending_sm_tready_w = 1;
-                //     ss_tready = 1;
-                // end
-                // pending_sm_tready_w = 1;
-                // ss_tready = 1;
-                // pending_sm_tready_w = 1;
-                // if(pending_sm_tready_r !== 1'b1) pending_sm_tready_w = 1;
             end
         endcase
         if (pending_sm_tready_r == 1'b1) begin
@@ -149,7 +119,6 @@ module qs
                 sm_tlast = 1;
             end
             if (sm_tready == 1'b1) begin
-                fir_result_w = 0;
                 qs_output_counter_w = qs_output_counter_r + 1;
                 if (last_r == 1'b1) begin
                     state_w = STATE_CLEAN_DATA_IN_BRAM;
@@ -160,7 +129,6 @@ module qs
         end
         if (arvalid == 1'b1) begin
             pending_rready_w = 1;
-            receive_address_for_read_w = araddr;
             arready = 1;
             if (((araddr >> 4) != 0) & ((araddr >> 4) != 1)) begin
                 tap_EN = 1;
@@ -207,16 +175,12 @@ module qs
     integer i, j;
     reg [31:0] temp;
     always @(posedge axis_clk) begin
-    // Copy input array to output array
-        for (i = 0; i < 10; i = i + 1) begin
+        for (i = 0; i < QS_LEN; i = i + 1) begin
             qs_output_storage_r[i] = qs_input_storage_r[i];
         end
-
-        // Perform bubble sort
-        for (i = 0; i < 10; i = i + 1) begin
-            for (j = 0; j < 9 - i; j = j + 1) begin
+        for (i = 0; i < QS_LEN; i = i + 1) begin
+            for (j = 0; j < QS_LEN -1 - i; j = j + 1) begin
                 if (qs_output_storage_r[j] > qs_output_storage_r[j+1]) begin
-                    // Swap elements
                     temp = qs_output_storage_r[j];
                     qs_output_storage_r[j] = qs_output_storage_r[j+1];
                     qs_output_storage_r[j+1] = temp;
@@ -224,16 +188,5 @@ module qs
             end
         end
     end
-    wire [31:0] A, B, C, D, E, F, G, H, I, J;
-    assign A = qs_output_storage_r[0];
-    assign B = qs_output_storage_r[1];
-    assign C = qs_output_storage_r[2];
-    assign D = qs_output_storage_r[3];
-    assign E = qs_output_storage_r[4];
-    assign F = qs_output_storage_r[5];
-    assign G = qs_output_storage_r[6];
-    assign H = qs_output_storage_r[7];
-    assign I = qs_output_storage_r[8];
-    assign J = qs_output_storage_r[9];
 
 endmodule
