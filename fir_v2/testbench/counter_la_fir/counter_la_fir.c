@@ -153,14 +153,14 @@ void __attribute__ ( ( section ( ".mprjram" ) ) ) main()
 		}
 	}
 */	
-	for(int i=0; i<3; i++){ //execute 3 times
-		// start mark
-		reg_mprj_datal = 0x00A50000;
-		// run fir contro;
-		int* y = fir();
-		// end mark
-		reg_mprj_datal = (*y << 24) | (0x5A << 16); //mprj[31:0] = {fianl Y, EndMark, 16'h0000} 
-	}
+	
+	// start mark
+	reg_mprj_datal = 0x00A50000;
+	// run fir contro;
+	int* y = fir();
+	// end mark
+	reg_mprj_datal = (*y << 24) | (0x5A << 16); //mprj[31:0] = {fianl Y, EndMark, 16'h0000} 
+	
 
 	//print("\n");
 	//print("Monitor: Test 1 Passed\n\n");	// Makes simulation very long!

@@ -113,10 +113,10 @@ module user_proj_example #(
     wire [3:0] wb2_sel;
     wire [31:0] wb2_dat_o;
     wire wb2_ack;
-    assign wb2_stb = wbs_stb_i & (wbs_adr_i[31:24]==8'h30);
-    assign wb2_cyc = wbs_cyc_i & (wbs_adr_i[31:24]==8'h30);
-    assign wb2_we = wbs_we_i & (wbs_adr_i[31:24]==8'h30);
-    assign wb2_sel = wbs_sel_i & {4{(wbs_adr_i[31:24]==8'h30)}};
+    assign wb2_stb = wbs_stb_i & (wbs_adr_i[31:20]==12'h301);
+    assign wb2_cyc = wbs_cyc_i & (wbs_adr_i[31:20]==12'h301);
+    assign wb2_we = wbs_we_i & (wbs_adr_i[31:20]==12'h301);
+    assign wb2_sel = wbs_sel_i & {4{(wbs_adr_i[31:20]==12'h301)}};
     
     
     wb2axi user_wb2axi (

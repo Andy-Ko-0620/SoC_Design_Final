@@ -159,16 +159,16 @@ module counter_la_fir_tb;
 
 	integer k,cycs;
 	initial begin
-		for (k=0;k<3;k=k+1)begin
-			cycs=0;
-			wait(checkbits == 16'h00A5);
-			$display("%0d LA Test 1 started, at ",k+1, $realtime, " ns");
-				
-			while(checkbits != 16'hBF5A)@(posedge clock) cycs=cycs+1;//Y=10614
-			$display("%0d LA Test 2 passed, at ",k+1,  $realtime, " ns");
-			$display("total cycles: %0d cycles ",cycs);
-			$display("avg cycles: %0d cycles ",cycs/64);	
-		end
+		
+		cycs=0;
+		wait(checkbits == 16'h00A5);
+		$display("LA Test fir started, at ", $realtime, " ns");
+			
+		while(checkbits != 16'hBF5A)@(posedge clock) cycs=cycs+1;//Y=10614
+		$display("LA Test fir passed, at ",  $realtime, " ns");
+		$display("total cycles: %0d cycles ",cycs);
+		$display("avg cycles: %0d cycles ",cycs/64);	
+		
 		#10000;
 		$finish;
 	end

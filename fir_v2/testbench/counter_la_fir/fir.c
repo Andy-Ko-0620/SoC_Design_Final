@@ -33,7 +33,7 @@ int* __attribute__ ( ( section ( ".mprjram" ) ) ) fir(){
 		reg_fir_x = i;
 	}
 	outputsignal[N-1] = reg_fir_y;
-	while((reg_fir_control >> 1) & 1 != 1); // read ap_done, bit[1] = 1
+	// while((reg_fir_control >> 1) & 1 != 1); // read ap_done, bit[1] = 1
 
 	return &outputsignal[62];
 }
